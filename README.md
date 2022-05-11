@@ -9,7 +9,7 @@
 
 Screenshots: 
 1. Home :
-![Alt text](badBank/ReadmeSS/home.png?raw=true "Optional Title")
+![Alt text](Kukadia-Bank/ReadmeSS/home.png?raw=true "Optional Title")
 
 
 Technology used: Your technology stack, listed out. 
