@@ -31,15 +31,17 @@ function WithdrawForm(props){
   const ctx = React.useContext(UserContext);  
 
   function handle(){
-    console.log(email,amount);
-    const user = ctx.users.find((user) => user.email == email);
-    if (!user) {
-      props.setStatus('fail!')      
-      return;      
-    }
+    const url = `/withdraw/${email}/${amount}`;
+    (async () => {
+      var res = await fetch(url);
+      var user = await res.json();
+      // console.log('data:', user);
+      if (!user) {
+        props.setStatus('fail!');
+        return;      
+      }
 
-    user.balance = user.balance - Number(amount);
-    console.log(user);
+    })();
     props.setStatus('');      
     props.setShow(false);
   }

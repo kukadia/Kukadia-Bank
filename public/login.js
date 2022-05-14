@@ -32,22 +32,25 @@ function LoginForm(props){
   const ctx = React.useContext(UserContext);  
 
   function handle(){
-    const user = ctx.users.find((user) => user.email == email);
-    console.log(user);
-    console.log(email, password);
-    if (!user) {
-      console.log('one')      
-      props.setStatus('fail!')      
-      return;      
-    }
-    if (user.password == password) {
-      console.log('two')            
-      props.setStatus('');
+    const url = `/account/login/${email}/${password}`;
+    (async () => {
+      var res = await fetch(url);
+      var user = await res.json();
+     console.log('data:', user);
+      if (!user) {
+        console.log('one')      
+        props.setStatus('fail!')      
+        return;      
+      }
+      if (user.password == password) {
+        console.log('two')            
+        props.setStatus('Login Successfull.');
+        props.setShow(false);
+        return;      
+      }
+      props.setStatus('Login Successfull.');
       props.setShow(false);
-      return;      
-    }
-    console.log('three')          
-    props.setStatus('fail!');        
+    });       
   }
 
 

@@ -18,27 +18,68 @@ app.get('/account/create/:name/:email/:password', function(req,res){
 
 //login user
 app.get('/account/login/:email/:password', function(req,res){
-    res.send({
-        email: req.params.email,
-        password: req.params.password,
-    });
+    dal.find(req.params.email).then((usr)=>{
+        console.log("usr", usr);
+            res.send(usr);
+        });
 });
 
 //deposit
 app.get('/deposit/:email/:depositAmt', function(req,res){
-    dal.update(req.params.email,req.params.depositAmt)
+
+    // var newBal=0;
+   dal.findOne(req.params.email).then((usr)=>{
+    //    console.log("FindOne (usr)", usr);
+    //     newBal=Number(usr.balance)+Number(req.params.depositAmt);
+    //     // console.log(`User: ${usr.name} and new balance is: ${newBal+Number(req.params.depositAmt)}`)
+    //     console.log(`newBal: ${req.params.email}, ${newBal}`)
+    var bal = Number(usr.balance)+Number(req.params.depositAmt);
+
+    dal.update(usr.email,bal)
     .then((user) => {
-        console.log(user);
+        
         res.send(user);
+        
     }); 
+    console.log(`Final update:`, usr);
+    });
+
+   
+    // res.send({
+    //     email: req.params.email,
+    //     balance: req.params.depositAmt,
+    // });
 });
 
 //withdraw
 app.get('/withdraw/:email/:withdrawAmt', function(req,res){
-    res.send({
-        email: req.params.email,
-        withdrawAmt: Number(req.params.withdrawAmt),
-    });
+    dal.findOne(req.params.email).then((usr)=>{
+        //    console.log("FindOne (usr)", usr);
+        //     newBal=Number(usr.balance)+Number(req.params.depositAmt);
+        //     // console.log(`User: ${usr.name} and new balance is: ${newBal+Number(req.params.depositAmt)}`)
+        //     console.log(`newBal: ${req.params.email}, ${newBal}`)
+
+        var bal = Number(usr.balance)-Number(req.params.withdrawAmt);
+        console.log(`bal: ${bal}`);
+        dal.update(usr.email,bal)
+        .then((user) => {
+            
+            res.send(user);
+            
+        }); 
+        console.log(`Final update:`, usr);
+        });
+});
+
+// balance
+app.get('/account/:email', function(req,res){
+    dal.findOne(req.params.email).then((usr)=>{
+        //    console.log("FindOne (usr)", usr);
+        //     newBal=Number(usr.balance)+Number(req.params.depositAmt);
+        //     // console.log(`User: ${usr.name} and new balance is: ${newBal+Number(req.params.depositAmt)}`)
+        //     console.log(`newBal: ${req.params.email}, ${newBal}`)
+            res.send(usr);
+        });
 });
 
 //all accounts

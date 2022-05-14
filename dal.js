@@ -10,6 +10,7 @@ MongoClient.connect(url, {useUnifiedTopology: true}, function(err,client){
     const dbName = 'myproject';
     db = client.db(dbName);
 });
+
     //Create new user
     function create(name,email,password){
         return new Promise((resolve,reject) => {
@@ -53,7 +54,7 @@ function update(email, amount){
             .collection('users')            
             .findOneAndUpdate(
                 {email: email},
-                { $inc: { balance: amount}},
+                { $set: { balance: amount}},
                 { returnOriginal: false },
                 function (err, documents) {
                     err ? reject(err) : resolve(documents);

@@ -1,3 +1,6 @@
+const { findOne } = require("../dal");
+var dal     = require('../dal');
+
 function Deposit(){
   const [show, setShow]     = React.useState(true);
   const [status, setStatus] = React.useState('');  
@@ -28,22 +31,20 @@ function DepositMsg(props){
 function DepositForm(props){
   const [email, setEmail]   = React.useState('');
   const [amount, setAmount] = React.useState('');
-  const ctx = React.useContext(UserContext);  
+  
 
   function handle(){
-    console.log(email,amount);
+    // console.log(email,amount);
     const url = `/deposit/${email}/${amount}`;
     (async () => {
       var res = await fetch(url);
       var user = await res.json();
-      console.log('data:', user);
+      // console.log('data:', user);
       if (!user) {
         props.setStatus('fail!');
         return;      
       }
-  
-      user.balance = user.balance + Number(amount);
-      console.log(user);
+
     })();
 
     // const user = ctx.users.find((user) => user.email == email);
